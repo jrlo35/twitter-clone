@@ -1,0 +1,37 @@
+body {
+        font-family: "Trebuchet MS";
+        color: #4099FF;
+        background-color: white;
+        padding:10px;
+        
+      }
+      div:nth-child(odd) {
+        color: #555555;
+        background-color: white;
+        padding:10px;
+        border-style: solid
+      }
+      div:nth-child(even){
+        color: #555555;
+        background-color: white;
+        padding:10px;
+        border-style: solid;
+      }
+      .users {
+        text-align: right;
+
+
+      }
+      li {
+        display: block;
+        text-align: right
+        margin: 10px;
+        color: #4099FF;
+      }
+
+      button{
+         color:black;
+         background-color: #4099FF;
+         background-size: 100px;
+         
+       }

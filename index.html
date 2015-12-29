@@ -3,25 +3,72 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <link rel='stylesheet' href='twitter.css' type="text/css">
+      
+       
+    </style>
   </head>
+
   <body>
-    <script>
-
+    <div class="users">
+      <h3>Click to view their timeline</h3>
+      <img src="389252_LS.png" align='left'style='width:300px;height:100px;'>
+      <ul>
+        <li data-user="shawndrost">@shawndrost</li>
+        <li data-user="sharksforcheap">@sharksforcheap</li>
+        <li data-user="mracus">@mracus</li>
+        <li data-user="douglascalhoun">@douglascalhoun</li>
+      </ul>
+    </div>
+    
+    <button>Refresh Tweets</button>
+      <script>
       $(document).ready(function(){
-        var $body = $('body');
-        $body.html('');
+        
+        var allTweets = streams.home;
+        
+        
+         //display new tweets
+        var newTweet = function (val, sourceArr) {
+          var tweet = sourceArr[val];
+          
+          var $tweet = $('<div class="twitter"></div>');
+          $tweet.text('@' + tweet.user + ': ' + tweet.message + ' - ' + tweet.created_at);
+          $tweet.insertAfter($('button'));
+        };
+        
+        //last 10 tweets
+        var tweets = function(index, sourceArr){
+          var max = index < 10 ? index:10;
+          for(var i = max; i > 0; i--) {
+            newTweet(index - i, sourceArr);//show newer tweets first
+          }
+        };
+       //refresh tweets
+        $("button").click(function(){
+          $('.twitter,.userDisplay,.homeDisplay').remove();
+          var $homeDisplay=$("<h3 class='homeDisplay'></h3>");
+          $homeDisplay.text('Displaying latest tweets');
+          $homeDisplay.insertBefore($('button'));
+          tweets(streams.home.length, allTweets);
+        });
 
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
-          index -= 1;
-        }
-
+        //user tweets
+        $('li').click(function(){
+          $('.twitter, .userDisplay,.homeDisplay').remove();
+          var user=$(this).data('user');
+          
+          var $userDisplay = $("<h3 class='userDisplay'></h3>");
+          $userDisplay.text('Displaying tweets from @' + user);
+          $userDisplay.insertBefore($('button'));
+          var userArr = streams.users[user];
+          var length =0;
+          for (var key in userArr) {
+            length++;
+          }
+          tweets(length, userArr);
+        });
       });
-
-    </script>
+      </script>
   </body>
 </html>
